@@ -26,7 +26,7 @@ export default function AddEditTaskModal({
   // const task = col ? col.tasks.find((task, index) => index === taskIndex) : [];
   //const [status, setStatus] = useState(columns[prevColIndex].name);
   //const [newColIndex, setNewColIndex] = useState(0);
-  const newColIndex = useState(0);
+  const newColIndex = 0;
   // const [subtasks, setSubtasks] = useState([
   //   { title: "", isCompleted: false, id: uuidv4() },
   //   { title: "", isCompleted: false, id: uuidv4() },

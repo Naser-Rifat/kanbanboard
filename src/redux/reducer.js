@@ -10,29 +10,33 @@ function rootReducer(state = data.boards, action) {
       const boardIndex = state.findIndex((board) => board.isActive);
       const board = state[boardIndex];
       const column = board.columns.find((col, index) => index === 0);
-      
+
       // Create a new array with the new task added
-      const newTasks = [...column.tasks, task];
+      //const newTasks = [...column.tasks, task];
 
       // Create a new column object with the new array of tasks
-      const newColumn = {
-        ...column,
-        tasks: newTasks,
-      };
+      // const newColumn = {
+      //   ...column,
+      //   tasks: newTasks,
+      // };
 
       // Create a new board object with the new column
-      const newColumns = [...board.columns];
-      newColumns[action.payload.task.newColIndex] = newColumn;
-      const newBoard = {
-        ...board,
-        columns: newColumns,
-      };
-
+      // const newColumns = [...board.columns];
+      // newColumns[action.payload.task.newColIndex] = newColumn;
+      // const newBoard = {
+      //   ...board,
+      //   columns: newColumns,
+      // };
+      console.log(action.payload.task);
+      console.log(column);
       // Create a new state with the new board
-      const newState = [...state];
-      newState[boardIndex] = newBoard;
-      return newState;
+      const newState = [...state, action.payload.task];
+      // newState[boardIndex] = newBoard;
+      column.tasks.push(task);
+      console.log(column);
 
+      //column.tasks.push(action.payload.task);
+      break;
     case MOVE_TASK:
       return {
         ...state,

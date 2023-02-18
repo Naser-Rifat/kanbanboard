@@ -31,14 +31,14 @@ export default function Board() {
           {columns.map((col, index) => {
             return <Column key={index} colIndex={index} />;
           })}
-          <div
+          {/* <div
             className="add-column-column heading-XL"
             onClick={() => {
               setIsBoardModalOpen(true);
             }}
           >
             + New Column
-          </div>
+          </div> */}
         </>
       ) : (
         <EmptyBoard type="edit" />

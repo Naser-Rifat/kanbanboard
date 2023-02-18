@@ -16,7 +16,7 @@ import { useMediaQuery } from "react-responsive";
 
 export default function Header() {
   const isBigScreen = useMediaQuery({ query: "(min-width: 768px)" });
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const boards = useSelector((state) => state);
   const board = boards.find((board) => board.isActive);
 
