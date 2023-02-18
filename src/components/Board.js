@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import AddEditBoardModal from "../modals/AddEditBoardModal";
+//import AddEditBoardModal from "../modals/AddEditBoardModal";
 import "../styles/Board.css";
 import Column from "./Column";
 import EmptyBoard from "./EmptyBoard";
-import Sidebar from "./Sidebar";
+//import Sidebar from "./Sidebar";
 
 export default function Board() {
   const isBigScreen = useMediaQuery({ query: "(min-width: 768px)" });
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
   const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
-  const boards = useSelector((state) => state.boards);
+  const boards = useSelector((state) => state);
   const board = boards.find((board) => board.isActive === true);
   const columns = board.columns;
 
@@ -31,14 +31,14 @@ export default function Board() {
           {columns.map((col, index) => {
             return <Column key={index} colIndex={index} />;
           })}
-          {/* <div
+          <div
             className="add-column-column heading-XL"
             onClick={() => {
               setIsBoardModalOpen(true);
             }}
           >
             + New Column
-          </div> */}
+          </div>
         </>
       ) : (
         <EmptyBoard type="edit" />
