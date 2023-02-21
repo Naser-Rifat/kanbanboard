@@ -30,3 +30,4 @@ export const columnData = {
     },
   ],
 };
+localStorage.setItem("data", JSON.stringify(columnData));

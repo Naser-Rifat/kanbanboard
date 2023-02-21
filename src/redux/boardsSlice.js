@@ -10,7 +10,9 @@ const boardsSlice = createSlice({
       const { title, newColIndex } = action.payload;
       const task = { title };
       const column = state.find((col, index) => index === newColIndex);
+      console.log(task);
       column.tasks.push(task);
+      // localStorage.setItem("data", JSON.stringify(column.tasks.push({ task })));
     },
 
     dragTask: (state, action) => {
