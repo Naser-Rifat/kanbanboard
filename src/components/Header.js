@@ -1,136 +1,68 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import "../styles/Header.css";
-import logo from "../assets/logo-mobile.svg";
-import addTaskMobile from "../assets/icon-add-task-mobile.svg";
-// import iconDown from "../assets/icon-chevron-down.svg";
-// import iconUp from "../assets/icon-chevron-up.svg";
-//import elipsis from "../assets/icon-vertical-ellipsis.svg";
-// import HeaderDropdown from "./HeaderDropdown";
-// import ElipsisMenu from "./ElipsisMenu.js";
-import AddEditTaskModal from "../modals/AddEditTaskModal";
-// import AddEditBoardModal from "../modals/AddEditBoardModal";
-// import DeleteModal from "../modals/DeleteModal";
-//import boardsSlice from "../redux/boardsSlice";
-import { useMediaQuery } from "react-responsive";
+import { useDispatch } from "react-redux";
+import boardsSlice from "../redux/boardsSlice";
 
 export default function Header() {
-  const isBigScreen = useMediaQuery({ query: "(min-width: 768px)" });
-  //const dispatch = useDispatch();
-  const boards = useSelector((state) => state);
-  const board = boards.find((board) => board.isActive);
+  const dispatch = useDispatch();
+  const [isValid, setIsValid] = useState(true);
 
-  // const [openDropdown, setOpenDropdown] = useState(false);
-  // const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState(false);
-  // const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
-  // const [boardType, setBoardType] = useState("");
-  // const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const newColIndex = 0;
+  const validate = () => {
+    setIsValid(false);
+    if (!title.trim()) {
+      return false;
+    }
 
-  // const onDropdownClick = () => {
-  //   setOpenDropdown((state) => !state);
-  //   setIsElipsisMenuOpen(false);
-  //   setBoardType("add");
-  // };
+    setIsValid(true);
+    return true;
+  };
+  const onSubmit = () => {
+    dispatch(
+      boardsSlice.actions.addTask({
+        title,
 
-  // const setOpenEditModal = () => {
-  //   setIsBoardModalOpen(true);
-  //   setIsElipsisMenuOpen(false);
-  // };
-  // const setOpenDeleteModal = () => {
-  //   setIsDeleteModalOpen(true);
-  //   setIsElipsisMenuOpen(false);
-  // };
+        newColIndex,
+      })
+    );
+  };
 
-  // const onDeleteBtnClick = (e) => {
-  //   if (e.target.textContent === "Delete") {
-  //     // dispatch(boardsSlice.actions.deleteBoard());
-  //     dispatch(boardsSlice.actions.setBoardActive({ index: 0 }));
-  //     setIsDeleteModalOpen(false);
-  //   } else {
-  //     setIsDeleteModalOpen(false);
-  //   }
-  // };
+  const [title, setTitle] = useState("");
 
   return (
     <div className="header-container">
       <header>
         <div className="logo-container">
-          <img className="logo" src={logo} alt="logo" />
-          {isBigScreen && <h3 className="logo-text">kanban</h3>}{" "}
+          <h3 className="logo-text">kanban</h3>{" "}
         </div>
 
-        <div className="header-name-container heading-L">
-          {/* /<h3 className="header-name">{board.name}</h3> */}
-          {/* {!isBigScreen && (
-            <img
-              src={openDropdown ? iconUp : iconDown}
-              alt="dropdown opened/closed"
-              onClick={() => {
-                onDropdownClick();
-              }}
-            />
-          )} */}
+        <div className="input-container">
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            id="task-name-input"
+            type="text"
+            placeholder="Write your task"
+            className={!isValid && !title.trim() ? "red-border" : ""}
+          />
+          {!isValid && !title.trim() && (
+            <span className="cant-be-empty-span text-L"> Can't be empty</span>
+          )}
         </div>
         <button
-          className={`add-task-btn heading-M ${
-            board.columns.length === 0 && "btn-off"
-          }`}
           onClick={() => {
-            setIsTaskModalOpen(true);
-            // setIsElipsisMenuOpen(false);
+            const isValid = validate();
+            if (isValid) {
+              onSubmit();
+            }
           }}
-          disabled={board.columns.length === 0}
+          style={{
+            margin: 10,
+          }}
+          className="add-task-btn"
         >
-          {isBigScreen ? (
-            "+ Add New Task"
-          ) : (
-            <img src={addTaskMobile} alt="add task" />
-          )}
+          Add Task
         </button>
-        {/* <img
-          onClick={() => {
-            setIsElipsisMenuOpen((prevState) => !prevState);
-            setBoardType("edit");
-          }}
-          className="elipsis"
-          src={elipsis}
-          alt="menu for deleting or editing board"
-        /> */}
-
-        {/* {openDropdown && !isBigScreen && (
-          <HeaderDropdown
-            setOpenDropdown={setOpenDropdown}
-            setIsBoardModalOpen={setIsBoardModalOpen}
-          />
-        )} */}
-        {/* {isElipsisMenuOpen && (
-          <ElipsisMenu
-            setOpenEditModal={setOpenEditModal}
-            setOpenDeleteModal={setOpenDeleteModal}
-            type="board"
-          />
-        )} */}
       </header>
-      {/* {isBoardModalOpen && (
-        <AddEditBoardModal
-          type={boardType}
-          setIsBoardModalOpen={setIsBoardModalOpen}
-        />
-      )}
-      {isDeleteModalOpen && (
-        <DeleteModal
-          type="board"
-          title={board.name}
-          onDeleteBtnClick={onDeleteBtnClick}
-        />
-      )} */}
-      {isTaskModalOpen && (
-        <AddEditTaskModal
-          setIsAddTaskModalOpen={setIsTaskModalOpen}
-          type="add"
-        />
-      )}
     </div>
   );
 }
